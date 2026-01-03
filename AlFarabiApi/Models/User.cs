@@ -14,6 +14,7 @@ namespace AlFarabiApi.Models
         public RoleEnum Role { get; set; }
 
         public List<GroupUser> ?GroupUsers { get; set; }
+        public List<SubjectUser>? SubjectUsers { get; set; }
 
         public bool IsLogIn { get; set; } = false;
 

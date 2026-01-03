@@ -1,6 +1,6 @@
 ﻿namespace AlFarabiApi.Dtos.Request
 {
-    public class AddUserToGroupRequestcs
+    public class AddUserToGroupRequests
     {
         public int UserId { get; set; }
         public int GroupId { get; set; }

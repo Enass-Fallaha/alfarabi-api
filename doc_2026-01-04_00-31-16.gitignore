@@ -1,0 +1,71 @@
+# TIgnore files and directories for .NET projects
+
+# Bin and Obj directories
+**/bin/
+**/obj/
+
+# Visual Studio files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build output
+[Dd]ebug/
+[Rr]elease/
+[Aa]sp.NET/
+bld/
+[Bb]uild/
+
+# Temporary files
+*_i.c
+*_p.c
+*.ilk
+*.meta
+*.obj
+*.pch
+*.pdb
+*.pgc
+*.pgd
+*.rsp
+*.tmp
+*.tlog
+
+# IntelliSense files
+*.cache
+*.VC.db
+*.VC.opendb
+
+# Resharper files
+_ReSharper*/
+*.DotSettings.user
+
+# NuGet packages
+packages/
+
+# MSBuild files
+Microsoft.Common.CurrentVersion.targets
+
+# Team Services files
+ServiceHub/
+*.svclog
+
+# ASP.NET Core files
+*.Publish.xml
+*.runtimeconfig.json
+*.deps.json
+*.dll
+*.exe
+*.pdb
+*.ni.dll
+*.ni.exe
+*.ni.pdb
+
+# Test results
+TestResults/
+coverage.*
+
+# IDE-specific files
+.vs/
+*.vsixmanifest
+*.vsix

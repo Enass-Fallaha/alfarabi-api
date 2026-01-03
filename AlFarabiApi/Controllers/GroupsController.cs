@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AlFarabiApi.Dtos;
 using AlFarabiApi.Dtos.Request;
@@ -7,109 +6,119 @@ using AlFarabiApi.Models;
 
 namespace AlFarabiApi.Controllers
 {
-    [Route("api/v1/[controller]")]
+    [Route ("api/v1/[controller]")]
     [ApiController]
     public class GroupsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        public GroupsController(ApplicationDbContext context)
+
+        public GroupsController ( ApplicationDbContext context )
         {
             _context = context;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllAsync( int? levelId = null )
+        public async Task<IActionResult> GetAllAsync ( int? levelId = null )
         {
-            var qury =
-                 _context.Groups
-                .Include(g => g.Level) 
-                .AsQueryable();
+            var query = _context.Groups
+                .Include (g => g.Level)
+                .AsQueryable ();
 
-            if(levelId is not null)
+            if ( levelId is not null )
             {
-                qury = qury.Where( o =>  o.LevelId == levelId  );
-
+                query = query.Where (g => g.LevelId == levelId);
             }
 
-        var groupList = await qury.ToListAsync();
+            var groupList = await query.ToListAsync ();
+            var groupResponse = groupList.Select (g => GroupResponse.Create (g));
 
-            var groupResponse = groupList.Select(g => GroupResponse.Create(g));
-
-            return Ok(groupResponse);
+            return Ok (groupResponse);
         }
 
-
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetByIdAsync(int id)
+        [HttpGet ("{id}")]
+        public async Task<IActionResult> GetByIdAsync ( int id )
         {
-            var group =
-            await _context.Groups
-            .Include(g => g.Level)
-            .FirstOrDefaultAsync(g => g.Id==id);
+            var group = await _context.Groups
+                .Include (g => g.Level)
+                .FirstOrDefaultAsync (g => g.Id == id);
 
-            if (group == null)
+            if ( group == null )
             {
-                return NotFound();
+                return NotFound ();
             }
 
-            return Ok(GroupResponse.Create(group));
+            return Ok (GroupResponse.Create (group));
         }
-
-
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(CreateGroupRequest dto)
+        public async Task<IActionResult> CreateAsync ( CreateGroupRequest dto )
         {
-            var group = await _context.Groups
-                .FirstOrDefaultAsync(g=>g.Name==dto.Name&& g.LevelId==dto.LevelId && g.Gender ==dto.Gender );
-            if (group != null) 
-                return Ok(new { message = "The Group already exists" } ); 
+            var existingGroup = await _context.Groups
+                .FirstOrDefaultAsync (g =>
+                    g.Name == dto.Name &&
+                    g.LevelId == dto.LevelId &&
+                    g.Gender == dto.Gender);
 
-             group = new Group
+            if ( existingGroup != null )
             {
-                Gender = dto.Gender,
-                Name = dto.Name,
+                return Ok (new { message = "The Group already exists" });
+            }
+
+            var group = new Group
+            {
+                Gender = dto.Gender ,
+                Name = dto.Name ,
                 LevelId = dto.LevelId
             };
-            await _context.Groups.AddAsync(group);
-            _context.SaveChanges();
 
-            return await GetByIdAsync(group.Id);
+            await _context.Groups.AddAsync (group);
+            await _context.SaveChangesAsync ();
+
+            return await GetByIdAsync (group.Id);
         }
 
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAsync(int id, CreateGroupRequest dto)
+        [HttpPut ("{id:int}")]
+        public async Task<IActionResult> UpdateAsync ( int id , CreateGroupRequest dto )
         {
+            var group = await _context.Groups.FindAsync (id);
+            if ( group == null )
+            {
+                return NotFound ($"Group with ID = {id} is not found.");
+            }
 
+            var duplicateGroup = await _context.Groups
+                .FirstOrDefaultAsync (g =>
+                    g.Name == dto.Name &&
+                    g.LevelId == dto.LevelId &&
+                    g.Gender == dto.Gender &&
+                    g.Id != id);
 
-            var group = await _context.Groups
-                .FirstOrDefaultAsync(g => g.Name == dto.Name && g.LevelId == dto.LevelId);
-            if (group != null)
-               return Ok(new { message = "The Group already exists" }); 
-             group = await _context.Groups.FindAsync(id);
-            if (group == null) 
-               return NotFound(); 
+            if ( duplicateGroup != null )
+            {
+                return Ok (new { message = "The Group already exists" });
+            }
 
             group.Name = dto.Name;
             group.LevelId = dto.LevelId;
             group.Gender = dto.Gender;
-            _context.SaveChanges(); 
-               return await GetByIdAsync(group.Id);
 
+            await _context.SaveChangesAsync ();
+            return await GetByIdAsync (group.Id);
         }
 
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAsync(int id)
+        [HttpDelete ("{id:int}")]
+        public async Task<IActionResult> DeleteAsync ( int id )
         {
-            var group = await _context.Groups.FindAsync(id);
-            if (group == null)
-             return NotFound(); 
-            ;
-            _context.Groups.Remove(group);
-            _context.SaveChanges();
-             return NoContent();
+            var group = await _context.Groups.FindAsync (id);
+            if ( group == null )
+            {
+                return NotFound ($"Group with ID = {id} is not found.");
+            }
+
+            _context.Groups.Remove (group);
+            await _context.SaveChangesAsync ();
+
+            return NoContent ();
         }
     }
 }

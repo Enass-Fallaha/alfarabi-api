@@ -20,6 +20,7 @@ namespace AlFarabiApi.Models
         public DbSet<Group> Groups { get; set; }
         public DbSet<Level> Levels { get; set; }
         public DbSet<Subject> Subjects { get; set; }
+        public DbSet<SubjectUser> SubjectUsers { get; set; }
 
 
 
@@ -37,6 +38,18 @@ namespace AlFarabiApi.Models
                 .HasOne(u => u.Group)
                 .WithMany(o => o.GroupUsers)
                 .HasForeignKey(o => o.GroupId);
+
+            modelBuilder
+                .Entity<SubjectUser> ()
+                .HasOne (u => u.User)
+                .WithMany (o => o.SubjectUsers)
+                .HasForeignKey (o => o.UserId);
+
+            modelBuilder
+                .Entity<SubjectUser> ()
+                .HasOne (u => u.Subject)
+                .WithMany (o => o.SubjectUsers)
+                .HasForeignKey (o => o.SubjectId);
 
             modelBuilder.Entity<User>().HasData(new User
             {    Id =1,

@@ -17,7 +17,7 @@
   },
   {
     "ContainingType": "AlFarabiApi.Controllers.AuthController",
-    "Method": "LogIAsync",
+    "Method": "LogOutAsync",
     "RelativePath": "api/v1/Auth/log-out",
     "HttpMethod": "POST",
     "IsController": true,
@@ -118,22 +118,6 @@
   },
   {
     "ContainingType": "AlFarabiApi.Controllers.GroupUsersController",
-    "Method": "UpdateAsync",
-    "RelativePath": "api/v1/GroupUsers",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "dto",
-        "Type": "AlFarabiApi.Dtos.Request.AddUserToGroupRequestcs",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "AlFarabiApi.Controllers.GroupUsersController",
     "Method": "CreateAsync",
     "RelativePath": "api/v1/GroupUsers/add-user-to-group",
     "HttpMethod": "POST",
@@ -142,7 +126,7 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "AlFarabiApi.Dtos.Request.AddUserToGroupRequestcs",
+        "Type": "AlFarabiApi.Dtos.Request.AddUserToGroupRequests",
         "IsRequired": true
       }
     ],
@@ -192,22 +176,6 @@
   },
   {
     "ContainingType": "AlFarabiApi.Controllers.GroupUsersController",
-    "Method": "GetByUserIdAsync",
-    "RelativePath": "api/v1/GroupUsers/get-groups-by-user-id",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "AlFarabiApi.Controllers.GroupUsersController",
     "Method": "GetByGroupIdAsync",
     "RelativePath": "api/v1/GroupUsers/get-users-by-group-id",
     "HttpMethod": "GET",
@@ -223,6 +191,22 @@
         "Name": "role",
         "Type": "System.String",
         "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AlFarabiApi.Controllers.GroupUsersController",
+    "Method": "UpdateAsync",
+    "RelativePath": "api/v1/GroupUsers/update-user-in-group",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "AlFarabiApi.Dtos.Request.AddUserToGroupRequests",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []

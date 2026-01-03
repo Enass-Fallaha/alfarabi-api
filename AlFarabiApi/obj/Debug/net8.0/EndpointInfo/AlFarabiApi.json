@@ -222,28 +222,6 @@
         }
       }
     },
-    "/api/v1/GroupUsers/get-groups-by-user-id": {
-      "get": {
-        "tags": [
-          "GroupUsers"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/api/v1/GroupUsers/get-by-userid-and-groupid": {
       "get": {
         "tags": [
@@ -283,17 +261,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AddUserToGroupRequestcs"
+                "$ref": "#/components/schemas/AddUserToGroupRequests"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/AddUserToGroupRequestcs"
+                "$ref": "#/components/schemas/AddUserToGroupRequests"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/AddUserToGroupRequestcs"
+                "$ref": "#/components/schemas/AddUserToGroupRequests"
               }
             }
           }
@@ -305,7 +283,7 @@
         }
       }
     },
-    "/api/v1/GroupUsers": {
+    "/api/v1/GroupUsers/update-user-in-group": {
       "put": {
         "tags": [
           "GroupUsers"
@@ -314,17 +292,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AddUserToGroupRequestcs"
+                "$ref": "#/components/schemas/AddUserToGroupRequests"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/AddUserToGroupRequestcs"
+                "$ref": "#/components/schemas/AddUserToGroupRequests"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/AddUserToGroupRequestcs"
+                "$ref": "#/components/schemas/AddUserToGroupRequests"
               }
             }
           }
@@ -753,7 +731,7 @@
   },
   "components": {
     "schemas": {
-      "AddUserToGroupRequestcs": {
+      "AddUserToGroupRequests": {
         "type": "object",
         "properties": {
           "userId": {
@@ -808,6 +786,14 @@
           "levelId": {
             "type": "integer",
             "format": "int32"
+          },
+          "userIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AlFarabiApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f75c0339962bc05b6577e72f8d367382f5db7f5e")]
 [assembly: System.Reflection.AssemblyProductAttribute("AlFarabiApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AlFarabiApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

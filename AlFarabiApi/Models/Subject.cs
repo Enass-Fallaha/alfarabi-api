@@ -6,6 +6,6 @@
         public string Name { get; set; } = string.Empty;
         public int LevelId { get; set; }
         public Level? Level { get; set; }
-
+        public List<SubjectUser>? SubjectUsers { get; set; }
     }
 }

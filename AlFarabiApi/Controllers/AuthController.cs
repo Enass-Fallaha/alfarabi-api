@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AlFarabiApi.Dtos.Request;
@@ -9,73 +8,55 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace AlFarabiApi.Controllers
 {
-    [Route("api/v1/[controller]")]
+    [Route ("api/v1/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
-    {  
+    {
         private readonly ApplicationDbContext _context;
-        public AuthController(ApplicationDbContext context)
+
+        public AuthController ( ApplicationDbContext context )
         {
             _context = context;
         }
 
-
-        [HttpPost("log-in")]
-        public async Task<IActionResult> LogInAsync(LogInRequest dto)
+        [HttpPost ("log-in")]
+        public async Task<IActionResult> LogInAsync ( LogInRequest dto )
         {
-            var user =
-            await _context.Users
-                .FirstOrDefaultAsync(
-                user => user.Email == dto.Email
-                );
+            var user = await _context.Users
+                .FirstOrDefaultAsync (u => u.Email == dto.Email);
 
-
-            if (user == null || user.Password != dto.Password)
+            if ( user == null || user.Password != dto.Password )
             {
-                return BadRequest(
-                    new
-                    {
-                        message = "Email or password incorrect"
-                    }
-                );
+                return BadRequest (new { message = "Email or password incorrect" });
             }
 
-
             user.IsLogIn = true;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync ();
 
-            return Ok(
-                new
-                {
-                    isLogIn = true,
-                    token = user.Role == Enums.RoleEnum.Admin ? Models.User.TOKEN : null,
-                    user.Id,
-                    user.Name
-
-                }
-            );
-        }
-      
-        [HttpPost("log-out")]
-        public async Task<IActionResult> LogIAsync(int userId)
-        {
-            var user =
-            await _context.Users
-                .FirstOrDefaultAsync(
-                user => user.Id == userId
-                );
-
-
-            if (user == null )
+            return Ok (new
             {
-                return NotFound();
-                
+                isLogIn = true ,
+                token = user.Role == Enums.RoleEnum.Admin ? Models.User.TOKEN : null ,
+                user.Id ,
+                user.Name
+            });
+        }
+
+        [HttpPost ("log-out")]
+        public async Task<IActionResult> LogOutAsync ( int userId )
+        {
+            var user = await _context.Users
+                .FirstOrDefaultAsync (u => u.Id == userId);
+
+            if ( user == null )
+            {
+                return NotFound ();
             }
 
             user.IsLogIn = false;
-            _context.SaveChanges();
-            return Ok();
-        }
+            await _context.SaveChangesAsync();
 
+            return Ok ();
+        }
     }
 }

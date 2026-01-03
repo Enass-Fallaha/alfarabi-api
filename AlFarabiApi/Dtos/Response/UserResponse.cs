@@ -15,6 +15,7 @@ namespace AlFarabiApi.Dtos
         public string Phone { get; set; }
         public RoleEnum Role { get; set; }
         public GenderEnum Gender { get; set; }
+        public List<GroupResponse>? group { get; set; }
 
         public bool IsLogIn { get; set; }
 
@@ -22,13 +23,14 @@ namespace AlFarabiApi.Dtos
         {
             return new UserResponse
             {
-                Id = user.Id,
-                Name = user.Name,
-                Email = user.Email,
-              //  Password = user.Password,
-                Phone = user.Phone,
+                Id = user.Id ,
+                Name = user.Name ,
+                Email = user.Email ,
+                //  Password = user.Password,
+                Phone = user.Phone ,
                 Role = user.Role ,
-                Gender = user.Gender
+                Gender = user.Gender ,
+                group = user.GroupUsers?.Select( o => GroupResponse.CreateNullable(o.Group)).ToList() !
             };
         }
 
